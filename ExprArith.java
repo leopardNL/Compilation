@@ -4,38 +4,38 @@ abstract class NumExpr {
 
     abstract int eval ();
 
-}//ExprArith
+}
 
 abstract class BoolExpr {
 
-    abstract int eval ();
+    abstract boolean eval ();
 
-}//ExprArith
+}
 
 
 class Number extends NumExpr {
 
     int val;
 
-    Cte (int val) {
+    Number (int val) {
         this.val = val;
-    }//Cte
+    }
 
     int eval () {
         return val;
-    }//eval
+    }
 
 }
 
 class Bool extends BoolExpr {
 
-    Boolean val;
+    boolean val;
 
-    BoolExpr (Boolean val) {
+    Bool (boolean val) {
         this.val = val;
     }
 
-    Boolean eval () {
+    boolean eval () {
         return val;
     }
 
@@ -123,29 +123,37 @@ class Div extends BinOpInt {
 }//Div
 
 
-class Inf extends BinOpInt {
+
+abstract class BinOpComp extends BoolExpr {
+
+    NumExpr e1, e2;
+
+}//BinOp
+
+
+class Inf extends BinOpComp {
 
     Inf (NumExpr e1, NumExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }
 
-    Boolean eval () {
+    boolean eval () {
         if(e1.eval() < e2.eval())
         {return true;}
         else{return false;}
-    }//eval
+    }
 
 }
 
-class InfEg extends BinOpInt {
+class InfEg extends BinOpComp {
 
     InfEg (NumExpr e1, NumExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }
 
-    Boolean eval () {
+    boolean eval () {
         if(e1.eval() <= e2.eval())
         {return true;}
         else{return false;}
@@ -153,14 +161,14 @@ class InfEg extends BinOpInt {
 
 }
 
-class Sup extends BinOpInt {
+class Sup extends BinOpComp {
 
     Sup (NumExpr e1, NumExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }
 
-    Boolean eval () {
+    boolean eval () {
         if(e1.eval() > e2.eval())
         {return true;}
         else{return false;}
@@ -169,14 +177,14 @@ class Sup extends BinOpInt {
 }
 
 
-class SupEg extends BinOpInt {
+class SupEg extends BinOpComp {
 
     SupEg (NumExpr e1, NumExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }
 
-    Boolean eval () {
+    boolean eval () {
         if(e1.eval() >= e2.eval())
         {return true;}
         else{return false;}
@@ -185,11 +193,47 @@ class SupEg extends BinOpInt {
 }
 
 
-abstract class BinOpBool extends NumExpr {
+class Eg extends BinOpComp {
+
+    Eg (NumExpr e1, NumExpr e2) {
+        this.e1 = e1;
+        this.e2 = e2;
+    }
+
+    boolean eval () {
+        if(e1.eval() == e2.eval())
+        {return true;}
+        else{return false;}
+    }//eval
+
+}
+
+class NotEg extends BinOpComp {
+
+    NotEg (NumExpr e1, NumExpr e2) {
+        this.e1 = e1;
+        this.e2 = e2;
+    }
+
+    boolean eval () {
+        if(e1.eval() != e2.eval())
+        {return true;}
+        else{return false;}
+    }//eval
+
+}
+
+
+
+
+
+abstract class BinOpBool extends BoolExpr {
 
     BoolExpr e1, e2;
 
 }//BinOp
+
+
 
 
 class And extends BinOpBool {
@@ -199,7 +243,7 @@ class And extends BinOpBool {
         this.e2 = e2;
     }
 
-    Boolean eval () {
+    boolean eval () {
         return e1.eval() && e2.eval();
     }//eval
 
@@ -207,16 +251,17 @@ class And extends BinOpBool {
 
 class Or extends BinOpBool {
 
-    And (BoolExpr e1, BoolExpr e2) {
+    Or (BoolExpr e1, BoolExpr e2) {
         this.e1 = e1;
         this.e2 = e2;
     }
 
-    Boolean eval () {
+    boolean eval () {
         return e1.eval() || e2.eval();
     }//eval
 
 }
+
 
 
 
