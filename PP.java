@@ -100,12 +100,13 @@ class PPVar extends PPExpr {
 	else	{
 		return new UPPGVar(name);
 	}
-	
+	}
+
 	public String toString(){
         return name;
     	}
 
-}
+
 }//PPVar
 
 abstract class PPUnOp extends PPExpr {
@@ -320,6 +321,9 @@ class PPNeq extends PPBinOp {
 	UPPExpr toUPP (ArrayList<String> locals) {	
 	return new UPPNeq(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	public String toString(){
+    	return "(" + e1.toString() + ") != (" + e2.toString() + ")" ;
+    	}
 
 }//PPNeq
 
