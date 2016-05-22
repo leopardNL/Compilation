@@ -6,11 +6,21 @@ import java.util.*;
 /* Types */
 /*********/
 
-abstract class Type {}//Type
+abstract class Type {
+	public abstract String toString();
+}//Type
 
-class Int extends Type {}//Int
+class Int extends Type {
+	public String toString(){
+        return "int";
+    	}
+}//Int
 
-class Bool extends Type {}//Bool
+class Bool extends Type {
+	public String toString(){
+        return "boolean";
+    	}
+}//Bool
 
 class Array extends Type {
 
@@ -19,6 +29,10 @@ class Array extends Type {
     Array (Type elements) {
         this.elements = elements;
     }//Array
+    
+    public String toString() {
+	return "array ( " + elements + " )";
+    }
 
 }//Array
 
@@ -29,6 +43,7 @@ class Array extends Type {
 abstract class PPExpr {
 
 abstract UPPExpr toUPP(ArrayList<String> locals);
+public abstract String toString();
 
 }//PPExpr
 
@@ -43,18 +58,31 @@ class PPCte extends PPExpr {
 	UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPCte(val);
 	}
+	
+	public String toString(){
+        return Integer.toString(val);
+	}
+
 }//PPCte
 
 class PPTrue extends PPExpr {
 UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPTrue();
 	}
+	
+	public String toString(){
+        return "true";
+    	}
 }//PPTrue
 
 class PPFalse extends PPExpr {
 	UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPFalse();
 	}
+	
+	public String toString(){
+        return "false";
+    	}	
 }//PPFalse
 
 class PPVar extends PPExpr {
@@ -72,6 +100,10 @@ class PPVar extends PPExpr {
 	else	{
 		return new UPPGVar(name);
 	}
+	
+	public String toString(){
+        return name;
+    	}
 
 }
 }//PPVar
@@ -95,6 +127,11 @@ class PPInv extends PPUnOp {
 	UPPExpr ne=e.toUPP(locals);
 	return new UPPSub(new UPPCte(0),ne);
 	}
+	
+
+	public String toString(){
+        return "-("+e.toString()+")";
+    	}
 
 }//PPInv
 
@@ -107,6 +144,10 @@ class PPNot extends PPUnOp {
 	UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPNot(e.toUPP(locals));
 	}
+	
+	public String toString(){
+        return "not("+e.toString()+")";
+    	}
 
 }//PPNot
 
@@ -126,6 +167,10 @@ class PPAdd extends PPBinOp {
 	UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPAdd(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+        return e1.toString()+"+"+e2.toString();
+    	}
 
 }//PPAd
 
@@ -138,6 +183,10 @@ class PPSub extends PPBinOp {
 	UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPSub(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+        return e1.toString()+"-"+e2.toString();
+    	}
     
 
 }//PPSub
@@ -149,9 +198,13 @@ class PPMul extends PPBinOp {
         this.e2 = e2;
     }//PPMul
 
-UPPExpr toUPP(ArrayList<String> locals){
+	UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPMul(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+        return e1.toString()+"*"+e2.toString();
+    	}
 
 }//PPMul
 
@@ -165,6 +218,10 @@ class PPDiv extends PPBinOp {
 	UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPDiv(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+        return e1.toString()+"/"+e2.toString();
+    	}
 }//PPDiv
 
 class PPAnd extends PPBinOp {
@@ -177,6 +234,10 @@ class PPAnd extends PPBinOp {
 	UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPAnd(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+        return "("+e1.toString()+") and ("+e2.toString()+")";
+    	}
 
 }//PPAnd
 
@@ -190,6 +251,10 @@ class PPOr extends PPBinOp {
 	UPPExpr toUPP(ArrayList<String> locals){
 	return new UPPOr(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+        return "("+e1.toString()+") or ("+e2.toString()+")";
+    	}
 
 }//PPOr
 
@@ -204,6 +269,10 @@ class PPLe extends PPBinOp {
 	return new UPPLe(e1.toUPP(locals),e2.toUPP(locals));
 
     }//toUPP
+    
+    public String toString(){
+    return "(" + e1.toString() + ") < (" + e2.toString() + ")" ;
+    }
 
 }//PPLe
 
@@ -217,6 +286,10 @@ class PPLeq extends PPBinOp {
 	UPPExpr toUPP (ArrayList<String> locals) {	
 	return new UPPLeq(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+    	return "(" + e1.toString() + ") <= (" + e2.toString() + ")" ;
+    	}
 
 }//PPLeq
 
@@ -230,6 +303,10 @@ class PPEq extends PPBinOp {
 	UPPExpr toUPP (ArrayList<String> locals) {	
 	return new UPPEq(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+    	return "(" + e1.toString() + ") = (" + e2.toString() + ")" ;
+    	}
 
 }//PPEq
 
@@ -256,6 +333,10 @@ class PPGeq extends PPBinOp {
 	UPPExpr toUPP (ArrayList<String> locals) {	
 	return new UPPGeq(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+    	return "(" + e1.toString() + ") >= (" + e2.toString() + ")" ;
+    	}
 
 }//PPGeq
 
@@ -269,14 +350,26 @@ class PPGe extends PPBinOp {
 	UPPExpr toUPP (ArrayList<String> locals) {	
 	return new UPPGe(e1.toUPP(locals),e2.toUPP(locals));
 	}
+	
+	public String toString(){
+    	return "(" + e1.toString() + ") > (" + e2.toString() + ")" ;
+    	}
 
 }//PPGe
 
 abstract class Callee {}//Callee
 
-class Read extends Callee {}//Read
+class Read extends Callee {
+	public String toString(){
+        return "Read";
+    	}
+}//Read
 
-class Write extends Callee {}//Write
+class Write extends Callee {
+	public String toString(){
+        return "Write";
+	}
+}//Write
 
 class User extends Callee {
 
@@ -285,6 +378,11 @@ class User extends Callee {
     User (String name) {
         this.name = name;
     }//User
+    
+    public String toString(){
+        return name;
+    }
+
 
 }//User
 
@@ -304,7 +402,12 @@ class PPFunCall extends PPExpr {
             nargs.add(e.toUPP(locals));
             return new UPPFunCall(callee,nargs);
         
-    }
+    	}
+    	
+    	public String toString(){
+        return callee.toString() + " (" + args.toString() + ")";
+    	}
+
 
 }//FunCall
 
@@ -322,6 +425,10 @@ class PPArrayGet extends PPExpr {
 	UPPExpr nindex=index.toUPP(locals);
 	UPPExpr addr=new UPPAdd(narr,new UPPMul(nindex,new UPPCte(4)));
 	return new UPPLoad(addr);
+    	}
+    	
+    	public String toString(){
+        return arr.toString() + " [" + index.toString() + "]";
     	}
 
 }//PPArrayGet
@@ -342,6 +449,10 @@ class PPArrayAlloc extends PPExpr {
         ArrayList<UPPExpr> args = new ArrayList<UPPExpr>();
         args.add(nsize);
 	return new UPPFunCall(new Alloc(),args);
+    	}
+    	
+    	public String toString(){
+        return type.toString() + "Alloc (" + size.toString() + ")";
     	}
 
 }//PPArrayAlloc
@@ -370,6 +481,10 @@ class PPAssign extends PPInst {
         UPPExpr nval = val.toUPP(locals);
         return new UPPAssign(name, nval);
     }
+    
+    public String toString(){
+    return name + " := " + val.toString();
+    }
 
 }//PPAssign
 
@@ -389,6 +504,10 @@ class PPArraySet extends PPInst {
         UPPExpr nval = val.toUPP(locals);
         UPPExpr offset = new UPPMul(new UPPCte(4),nindex);
         return new UPPStore(new UPPAdd(narr,offset),nval);
+    }
+    
+    public String toString(){
+    return arr.toString() + "[" + index.toString() + "] = " + val.toString();
     }
 
 }//PPArraySet
@@ -410,6 +529,10 @@ class PPCond extends PPInst {
         UPPInst ni2 = i2.toUPP(locals);
         return new UPPCond(ncond,ni1,ni2);
     }
+    
+    public String toString(){
+    return "if " + cond.toString() + " then " + i1.toString() + " else " + i2.toString();
+    }
 
 }//PPCond
 
@@ -427,6 +550,10 @@ class PPWhile extends PPInst {
         UPPExpr ncond = cond.toUPP(locals); //Convert the PP values in UPP values
         UPPInst ni = i.toUPP(locals);
         return new UPPWhile(ncond,ni);
+    }
+    
+    public String toString(){
+    return "while " + cond.toString() + " do " + i.toString();
     }
 
 }//PPWhile
@@ -448,12 +575,21 @@ class PPProcCall extends PPInst {
         }
         return new UPPProcCall(callee,nargs);
     }
+    
+    public String toString(){
+    return callee.toString() + " (" + args.toString() + ")";
+    }
+
 
 }//PPProcCall
     
 class PPSkip extends PPInst {
     UPPInst toUPP(ArrayList<String> locals){
         return new UPPSkip();
+    }
+    
+    public String toString(){
+        return "skip";
     }
 }//PPSkip
 
@@ -470,6 +606,10 @@ class PPSeq extends PPInst {
         UPPInst ni1 = i1.toUPP(locals);
         UPPInst ni2 = i2.toUPP(locals);
         return new UPPSeq(ni1,ni2);
+    }
+    
+    public String toString(){
+        return i1.toString() + "; " + i2.toString();
     }
 
 }//PPSeq
@@ -491,6 +631,10 @@ class Pair<L,R> {
     static <L,R> Pair<L,R> of(L left, R right){
         return new Pair<L,R>(left, right);
     }//of
+    
+    public String toString(){
+        return "left : " + left.toString() + " right : " + right.toString();
+    }
 
 }//Pair
 
@@ -500,7 +644,7 @@ abstract class PPDef {
     ArrayList<Pair<String,Type>> args, locals;
     PPInst code;
     abstract UPPDef toUPP(ArrayList<Pair<String,Type>> locals);
-
+    public abstract String toString();
 }//PPDef
 
 class PPFun extends PPDef {
@@ -531,6 +675,10 @@ class PPFun extends PPDef {
         ncode = code.toUPP(nall);
         return new UPPFun(name, nargs, nlocals, ncode);
     }
+    
+    public String toString(){
+    return type.toString + name + "(" + args.toString() + ") return" + ret.toString() + "var " + locals.toString() + " " + code.toString();
+    }
 
 }//PPFun
 
@@ -560,6 +708,10 @@ class PPProc extends PPDef {
 
         return new UPPProc(name,nargs,nlocals,ncode);
     }//toUPP
+    
+    public String toString(){
+        return name.toString() + "(" + args.toString() + ") var " + locals.toString() + " " + code.toString();
+    }
 
     
 
@@ -594,6 +746,10 @@ class PPProg {
         ncode = code.toUPP(new ArrayList<String>());
         return new UPPProg(nglobals,ndefs,ncode); 
     }//toUPP
+    
+    public String toString(){
+        return   "var " + globals.toString() + " " + defs.toString() + " " + code.toString();
+    }
 
 }
 
