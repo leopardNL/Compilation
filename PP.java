@@ -677,7 +677,7 @@ class PPFun extends PPDef {
     }
     
     public String toString(){
-    return type.toString + name + "(" + args.toString() + ") return" + ret.toString() + "var " + locals.toString() + " " + code.toString();
+    return name + "(" + args.toString() + ") return" + ret.toString() + "var " + locals.toString() + " " + code.toString();
     }
 
 }//PPFun
